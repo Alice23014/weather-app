@@ -1,4 +1,4 @@
-const HourlyWeather = () => {
+const HourlyWeatherItem = () => {
     return (
         <li className="weather-item">
             <p className="time">
@@ -12,4 +12,4 @@ const HourlyWeather = () => {
     )
 }
 
-export default HourlyWeather;
+export default HourlyWeatherItem;
