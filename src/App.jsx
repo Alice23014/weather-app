@@ -1,13 +1,17 @@
 import SearchSection from "./components/SearchSection";
 import CurrentWeather from './components/CurrentWeather'
-import HourlyWeatherItem from "./components/HourlyWeatherItem";
+import HourlyWeatherItem from "./components/HourlyWeatherItem"
+import NoResultsDiv from "./components/NoResultsDiv";
 import { useState } from "react";
+import { useEffect } from "react";
 import { useRef } from "react";
 import { weatherCodes } from "./constants";
 
 const App = () => {
   const [currentWeather, setCurrentWeather] = useState({});
   const [hourlyForecasts, setHourlyForecasts] = useState([]);
+  const [hasNoResults, setHasNoResults] = useState(false);
+  const [weatherDetails, setWeatherDetails] = useState(false);
   const searchInputRef = useRef(null);
 
 
@@ -23,8 +27,11 @@ const App = () => {
     setHourlyForecasts(next24HoursData)
   }
   const getWeatherDetails = async (API_URL) =>{
+    setWeatherDetails(true); 
+    setHasNoResults(false)
     try{
       const response = await fetch(API_URL);
+      if(!response.ok) throw new Error("something went wrong");
       const data = await response.json();
       const temperature = Math.floor(data.current.temp_c);
       const description = data.current.condition.text;
@@ -37,23 +44,41 @@ const App = () => {
 
       filterHourlyForecast(combinedHourlyData);
       console.log(data)
-    }catch(error){
-      console.log(error)
+    }catch{
+      setHasNoResults(true)
     }
   }
+  useEffect(() => {
+    console.log('weatherDetails updated:', weatherDetails);
+  }, [weatherDetails]);
+  console.log(weatherDetails)
   return (
     <div className="container">
-      <SearchSection getWeatherDetails={getWeatherDetails} searchInputRef={searchInputRef}/>
-      <div className="weather-section">
-        <CurrentWeather currentWeather={currentWeather}/>
-        <div className="hourly-forecast">
-          <ul className="weather-list">
-            {hourlyForecasts.map((hourlyWeather)=>(
-              <HourlyWeatherItem setHourlyForecasts={setHourlyForecasts} hourlyWeather={hourlyWeather} key={hourlyWeather.time_epoch}/>
-            ))}
-          </ul>
-        </div>
-      </div>
+      <SearchSection
+        getWeatherDetails={getWeatherDetails}
+        setWeatherDetails={setWeatherDetails}
+        searchInputRef={searchInputRef}
+      />
+      {weatherDetails && (
+        hasNoResults ? (
+          <NoResultsDiv />
+        ) : (
+          <div className="weather-section">
+            <CurrentWeather currentWeather={currentWeather} />
+            <div className="hourly-forecast">
+              <ul className="weather-list">
+                {hourlyForecasts.map((hourlyWeather) => (
+                  <HourlyWeatherItem
+                    setHourlyForecasts={setHourlyForecasts}
+                    hourlyWeather={hourlyWeather}
+                    key={hourlyWeather.time_epoch}
+                  />
+                ))}
+              </ul>
+            </div>
+          </div>
+        )
+      )}
     </div>
   );
 }

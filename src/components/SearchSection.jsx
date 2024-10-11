@@ -1,4 +1,4 @@
-const SearchSection = ({ getWeatherDetails, searchInputRef }) => {
+const SearchSection = ({ getWeatherDetails, searchInputRef}) => {
   const API_KEY = import.meta.env.VITE_API_KEY;
 
   const handleCitySearch = (event) => {
