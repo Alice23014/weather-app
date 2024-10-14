@@ -1,5 +1,6 @@
+import { HourlyWeatherType } from "../App";
 import { weatherCodes } from "../constants";
-import React, {FC} from "react";
+import React, { Dispatch, FC, SetStateAction } from "react";
 
 interface HourlyWeatherItemProps {
   hourlyWeather: {
@@ -9,23 +10,22 @@ interface HourlyWeatherItemProps {
       code: number;
     };
   };
+  setHourlyForecasts: Dispatch<SetStateAction<HourlyWeatherType[]>>;
 }
-const HourlyWeatherItem : FC<HourlyWeatherItemProps> = ({hourlyWeather}) => {
+const HourlyWeatherItem: FC<HourlyWeatherItemProps> = ({ hourlyWeather }) => {
   const temperature = Math.floor(hourlyWeather.temp_c);
-  const time = hourlyWeather.time.split(" ")[1].substring(0,5);
-  const weatherIcon = Object.keys(weatherCodes).find(icon=>weatherCodes[icon].includes(hourlyWeather.condition.code));
-  console.log(hourlyWeather)
-    return (
-        <li className="weather-item">
-            <p className="time">
-              {time}
-            </p>
-            <img src={`icons/${weatherIcon}.svg`} className='weather-icon'></img>
-            <p className="temperature">
-              {temperature}°C
-            </p>
-          </li>
-    )
-}
+  const time = hourlyWeather.time.split(" ")[1].substring(0, 5);
+  const weatherIcon = Object.keys(weatherCodes).find((icon) =>
+    weatherCodes[icon].includes(hourlyWeather.condition.code)
+  );
+  console.log(hourlyWeather);
+  return (
+    <li className="weather-item">
+      <p className="time">{time}</p>
+      <img src={`icons/${weatherIcon}.svg`} className="weather-icon"></img>
+      <p className="temperature">{temperature}°C</p>
+    </li>
+  );
+};
 
 export default HourlyWeatherItem;
