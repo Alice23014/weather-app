@@ -1,3 +1,4 @@
+import React from "react";
 const NoResultsDiv = () => {
     return (
         <div className="no-results">

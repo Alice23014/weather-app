@@ -1,9 +1,9 @@
+import React from "react";
 import SearchSection from "./components/SearchSection";
 import CurrentWeather from './components/CurrentWeather'
 import HourlyWeatherItem from "./components/HourlyWeatherItem"
 import NoResultsDiv from "./components/NoResultsDiv";
 import { useState } from "react";
-import { useEffect } from "react";
 import { useRef } from "react";
 import { weatherCodes } from "./constants";
 
@@ -48,9 +48,6 @@ const App = () => {
       setHasNoResults(true)
     }
   }
-  useEffect(() => {
-    console.log('weatherDetails updated:', weatherDetails);
-  }, [weatherDetails]);
   console.log(weatherDetails)
   return (
     <div className="container">

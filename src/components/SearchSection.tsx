@@ -1,5 +1,13 @@
-const SearchSection = ({ getWeatherDetails, searchInputRef}) => {
+import React, {FC} from "react";
+
+interface CurrentWeatherProps {
+  getWeatherDetails: (API_URL: string) => void;
+  searchInputRef: React.RefObject<HTMLInputElement>;
+}
+
+const SearchSection : FC<CurrentWeatherProps> = ({ getWeatherDetails, searchInputRef}) => {
   const API_KEY = import.meta.env.VITE_API_KEY;
+
 
   const handleCitySearch = (event) => {
     event.preventDefault();

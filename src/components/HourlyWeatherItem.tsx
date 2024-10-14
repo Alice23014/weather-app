@@ -1,5 +1,16 @@
 import { weatherCodes } from "../constants";
-const HourlyWeatherItem = ({hourlyWeather}) => {
+import React, {FC} from "react";
+
+interface HourlyWeatherItemProps {
+  hourlyWeather: {
+    temp_c: number;
+    time: string;
+    condition: {
+      code: number;
+    };
+  };
+}
+const HourlyWeatherItem : FC<HourlyWeatherItemProps> = ({hourlyWeather}) => {
   const temperature = Math.floor(hourlyWeather.temp_c);
   const time = hourlyWeather.time.split(" ")[1].substring(0,5);
   const weatherIcon = Object.keys(weatherCodes).find(icon=>weatherCodes[icon].includes(hourlyWeather.condition.code));

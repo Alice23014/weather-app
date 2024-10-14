@@ -1,4 +1,13 @@
-const CurrentWeather = ({currentWeather}) => {
+import React, {FC} from 'react';
+interface CurrentWeatherProps {
+    currentWeather: {
+        temperature: number;
+        description: string;
+        weatherIcon: string;
+    }
+}
+
+const CurrentWeather: FC<CurrentWeatherProps> = ({currentWeather}) => {
     return (
         <div className="current-weather">
         <img src={`icons/${currentWeather.weatherIcon}.svg`} className='weather-icon'></img>
